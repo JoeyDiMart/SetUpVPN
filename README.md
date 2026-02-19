@@ -41,3 +41,20 @@ wget https://git.io/wireguard -O wireguard-install.sh && sudo bash wireguard-ins
 
 8. run bash wireguard-install.sh to generate a new conf file for each person 
 - I just grabbed everyone's initials so Joey DiMartino I created him a JD.conf
+
+
+## Note
+### Here's what the .conf will look like and the importance 
+[Interface]
+Address = {subnet_mask_IPv4}, {subnet_mask_IPv6}  # IP would be different this is just mine 
+DNS = 1.1.1.1, 1.0.0.1
+PrivateKey = something 
+
+[Peer]
+PublicKey = Something
+PresharedKey = something
+AllowedIPs = 0.0.0.0/0, ::/0    # allows for peer-to-peer rather than only client to server, 
+meaning you need this since your VM hosting the CTF will be a client as well
+
+Endpoint = 98.88.237.114:51820
+PersistentKeepalive = 25
