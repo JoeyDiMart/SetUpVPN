@@ -37,7 +37,9 @@ wget https://git.io/wireguard -O wireguard-install.sh && sudo bash wireguard-ins
 - I'm sending it to my host machine first then gonna send it to the Root discord
 
 7. To connect, make sure wireguard is installed with ```sudo apt install wireguard -y```
-   - then after installing on the clients computer run ```sudo wg-quick up ~/Root.conf```
+   - then after installing on the clients computer run ```sudo wg-quick up ~/Root```
+   - if conf file doesn't exist make sure to move it to /etc/wireguard/{file.conf}
+     - if you get an error run ```sudo apt install resolvconf -y```
 
 8. run bash wireguard-install.sh to generate a new conf file for each person 
 - I just grabbed everyone's initials so Joey DiMartino I created him a JD.conf
@@ -56,5 +58,43 @@ PresharedKey = something
 AllowedIPs = 0.0.0.0/0, ::/0    # allows for peer-to-peer rather than only client to server, 
 meaning you need this since your VM hosting the CTF will be a client as well
 
-Endpoint = 98.88.237.114:51820
+Endpoint = {some_IP}:51820
 PersistentKeepalive = 25
+
+
+## Commands for the VPN client
+
+#### Install VPN client on Linux
+```shell
+sudo apt install wireguard -y
+```
+
+## Install VPN client on MacOS
+```shell
+brew install wireguard-tools
+sudo mkdir -p /etc/wireguard
+# Note that MacOS gave me issues, I would connect then immediately fall back and disconnect
+# had to resort to getting the WireGuard app from appstore
+```
+
+#### put config file in correct place
+```shell
+sudo mv /path/to/conf/file/{conf_file_name} /etc/wireguard 
+
+```
+
+#### Start up the VPN:
+```shell
+sudo wg-quick up ~/{config_file}
+```
+
+#### check if the VPN is running:
+```shell
+sudo wg show 
+```
+
+#### Shut down VPN:
+```shell
+sudo wg-quick down {config_file}
+```
+
